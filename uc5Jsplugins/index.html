@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+
+</head>
+
+<body>
+<a href="/">Back to home</a> 
+<form id="form1" name="form1" action="/">
+	<button type="submit">submit</button>
+</form>
+	<hr />
+	<script src="js/uc5plugins.js"></script>
+	<!--<script src="js/uc5Modules.js"></script>-->
+
+	<script type="text/javascript"> 
+    // Listen for click events firing within the whole document 
+//  $.Events.add(document.body, "click", function(e) { 
+//      // e.target contains a reference to the actual element the 
+//      // event took place on 
+//    e.preventDefault();
+//      if (e.target.tagName.toLowerCase() == "a") { 
+//          alert("You clicked the anchor tag"); 
+//      } else { 
+//          alert("You clicked somewhere other than on the anchor tag"); 
+//      } 
+//  });
+    
+    
+  $.onDomReady(function() { 
+    // Outputs "Please wait..." if the Ajax request does not complete 
+    // within 300 milliseconds 
+	
+    var visualFeedback = function() { 
+        alert("Please wait..."); 
+    }; 
+
+    // Listen for the submit event on the first <form> tag on the current page 
+    $.Events.add(document.getElementsByTagName("form")[0], "submit", function(e) { 
+        // Stop the default form submission from occurring 
+        console.log(1);
+        e.preventDefault(); 
+        
+		
+		console.log(2);
+        // Execute the visualFeedback function after 300 milliseconds, storing a 
+        // reference to the timer within a variable named reaction 
+        var reaction = window.setTimeout(visualFeedback, 300); 
+		
+        // Save the form data to the server via Ajax 
+        $.Remote.save({ 
+            url:  "http://127.0.0.1:8020/Project_JSJquery/UCUC5/index.html", 
+            data: "...", // TODO: Real form data goes here 
+            callback: function(response) { 
+                // Terminate the execution of the visualFeedback function. If 300 
+                // milliseconds have not passed, it will not have been executed. If 
+                // they have, it will have executed already, providing feedback to 
+                // the end user 
+                window.clearTimer(reaction); 
+				
+                // TODO: Perform actions on the Ajax response 
+            } 
+        }); 
+    }); 
+});  
+    
+</script> 
+</body>
+</html>
